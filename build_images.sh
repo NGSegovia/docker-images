@@ -1,6 +1,8 @@
 #!/bin/bash
 
 force_build=0
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"  # Get the script's directory
+
 
 while getopts "f" opt; do
     case "$opt" in
@@ -12,8 +14,8 @@ done
 
 shift $((OPTIND - 1))
 
-for folder in */; do
-    folder_name=${folder%/}
+for folder in "$script_dir"/*/; do
+    folder_name=$(basename "$folder")
     image_name="${folder_name,,}"  # Convert folder name to lowercase for image name
 
     if [ $force_build -eq 0 ]; then
